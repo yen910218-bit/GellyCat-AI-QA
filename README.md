@@ -1,26 +1,52 @@
-# 🐾 Jump! Jelly: AI 自動化測試 Agent
+# 🐾 AI-Gelly-QA: 自動化遊戲測試 Agent 實作
 
-![Project Status](https://img.shields.io/badge/Status-Completed-success) ![Score](https://img.shields.io/badge/High_Score-94-gold)
+> **國立虎尾科技大學 (NFU) 資訊管理系進修部 - 入學書審作品集**
 
-這是我為國立虎尾科技大學進修部入學準備的前導專案。透過 Python (Pygame) 開發，並實作即時物理運算的 AI Agent，達成 94 分的高難度紀錄。
+本專案旨在探討 **「如何利用 Python 自動化腳本解決高難度環境測試問題」**。
+我開發了一個具備軌跡預判能力的 AI Agent，代替人工進行重複性測試，並成功在極限環境（Hell Mode）下達成 **114 分** 的效能紀錄。
 
-## 📺 AI 實測演示 (Demo)
+---
 
-> **左側**：遊戲實際畫面 (Hell 模式殘影開啟)
-> **右側**：AI Agent 即時運算的決策數據 (距離偵測與落地預判)
+## 🏆 歷史最高紀錄：114 分
+**僅用 8 小時完成從邏輯開發、AI 優化到 114 分的極限突破！**
 
-![AI Agent Demo GIF](你的GIF圖檔連結.gif)
-*(建議：這裡放你錄好的 GIF，檔名若是 demo.gif 且放在同目錄，語法就是 `![Demo](demo.gif)`)*
+![AI Agent Demo GIF](assets/demo.gif)
+*圖：AI Agent 於 Hell 模式 (Level 3) 的即時運算表現，右側終端機顯示落地預判數據。*
 
-## 🛠️ 核心功能
-* **物理預判系統**：不依賴簡單的距離判斷，而是計算拋物線軌跡 $T_{land} = \frac{d_{ground}}{v_{y}}$。
-* **視覺回饋**：實作粒子系統 (Particles) 與動態殘影 (Motion Trails)。
-* **自動化測試**：一鍵啟動 Agent，自動驗證遊戲關卡的碰撞邏輯。
+---
 
-## 🚀 如何執行
-```bash
-# 1. 安裝 Pygame
-pip install pygame
+## 🚀 核心技術實作
 
-# 2. 啟動測試
-python main.py
+### 1. 物理運動與預測模型
+AI Agent 透過以下物理公式計算落地點，決定是否啟動「二段跳」以規避 Hell 模式下的連環尖刺：
+
+$$T_{land} = \frac{Distance_{ground}}{Velocity_{y}}$$
+$$Predicted_{X} = Distance_{spike} - (Velocity_{spike} \times T_{land})$$
+
+### 2. QA 專業優化：Hitbox 寬容判定
+* **問題診斷**：原始碰撞判定過於嚴苛，導致 AI 在極速環境下因 1 像素誤差而失敗。
+* **解決方案**：實作受擊盒（Hurtbox）縮減技術，向內縮 4 像素，大幅提升系統 **魯棒性 (Robustness)**。
+
+### 3. 視覺與回饋系統 (Game Juice)
+* **極速殘影 (Motion Trails)**：在 Hell 模式（Score >= 25）自動觸發，強化視覺張力。
+* **粒子系統**：跳躍時噴發煙霧粒子，提供精確的動作回饋。
+* **雙層音效架構**：背景音樂 (BGM) 與 動作音效 (SFX) 獨立處理，並具備例外處理機制。
+
+---
+
+## 📂 檔案結構
+* `main.py`: 核心程式邏輯與 AI 演算法。
+* `assets/`: 存放角色圖片 (`player.png`)、背景音樂 (`bgm.mp3`) 與音效。
+* `README.md`: 專案說明文件與技術結案。
+
+---
+
+## 🛠️ 如何執行
+1. 安裝環境：`pip install pygame`
+2. 執行程式：`python main.py`
+3. 切換模式：按 `A` 鍵可切換「手動操控」或「AI Agent 自動測試」。
+
+---
+
+## 👨‍💻 開發心得
+資訊管理的魅力在於「用邏輯解決問題」。這個專案讓我學會如何將物理公式轉化為程式碼，並透過自動化測試不斷挑戰系統的極限。114 分不是終點，而是邁向資管專業的第一步。
